@@ -1,12 +1,6 @@
-import { useState } from 'react'
-import './App.css'
+import "./App.css";
+import { Button } from "@/components/ui/button";
 
-function App() {
-  return (
-    <>
-      Hello World!
-    </>
-  )
+export default function App() {
+  return <Button>Click Me</Button>;
 }
-
-export default App
