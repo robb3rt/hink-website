@@ -3,6 +3,8 @@ import type { StorybookConfig } from "@storybook/react-vite";
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
+    "@storybook/addon-interactions",
+    "@storybook/addon-links",
     "@storybook/addon-onboarding",
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
@@ -11,6 +13,20 @@ const config: StorybookConfig = {
   framework: {
     name: "@storybook/react-vite",
     options: {},
+  },
+  viteFinal: (config) => {
+    // Ensure `config.resolve` exists
+    if (!config.resolve) {
+      config.resolve = { alias: {} };
+    }
+
+    // Add your alias
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@": "/src", // Adjust this to your project structure
+    };
+
+    return config;
   },
 };
 export default config;
