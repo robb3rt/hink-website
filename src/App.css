@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: 0 0% 95%; /* Light gray background */
+  --foreground: 220 15% 20%; /* Dark gray text */
+  --primary: 204 89% 57%; /* Light blue (#1ea7fd) */
+  --primary-foreground: 0 0% 100%; /* White for text on primary */
+  --primary-hover: 204 89% 47%; /* Slightly darker blue for hover */
+  --card: 0 0% 100%; /* White card background */
+  --card-foreground: 220 15% 20%; /* Card text color */
+  --border: 220 15% 85%; /* Light gray border */
+  --shadow: 220 15% 20%; /* Neutral shadow */
+  --radius: 20px; /* Default radius for 'rounded-lg' */
+}
+
+:root.dark {
+  --background: 220 10% 10%; /* Dark gray background */
+  --foreground: 0 0% 95%; /* Light gray text */
+  --primary: 204 89% 57%; /* Same light blue for consistency */
+  --primary-foreground: 0 0% 100%; /* White for text on primary */
+  --primary-hover: 204 89% 67%; /* Slightly lighter blue for hover */
+  --card: 220 10% 20%; /* Dark gray card */
+  --card-foreground: 0 0% 95%; /* Light gray card text */
+  --border: 220 10% 40%; /* Darker border */
+  --shadow: 0 0% 0%; /* Neutral dark shadow */
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
