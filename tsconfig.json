@@ -21,8 +21,13 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Add typeRoots and types */
+    "typeRoots": ["node_modules/@types", "node_modules/@storybook"],
+    "types": ["@storybook/addon-docs"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
+

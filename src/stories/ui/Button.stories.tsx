@@ -67,3 +67,11 @@ export const IconButton: Story = {
     children: "😀", // Add an emoji or icon
   },
 };
+
+export const Link: Story = {
+  args: {
+    variant: "link",
+    size: "default",
+    children: "Click Me"
+  }
+};

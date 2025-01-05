@@ -34,6 +34,30 @@
   text-align: center;
 }
 
+/* Light mode styles (default) */
+body {
+  --color-text: #1a202c; /* Tailwind's gray-800 */
+  --color-bg: #ffffff; /* White background */
+  --color-border: #e2e8f0; /* Tailwind's gray-300 */
+  --color-shadow: rgba(0, 0, 0, 0.1); /* Light shadow */
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* Dark mode styles (when 'dark' class is on the body tag) */
+body.dark {
+  --color-text: #e2e8f0; /* Tailwind's gray-300 */
+  --color-bg: #1a202c; /* Tailwind's gray-800 */
+  --color-border: #2d3748; /* Tailwind's gray-700 */
+  --color-shadow: rgba(0, 0, 0, 0.5); /* Darker shadow */
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

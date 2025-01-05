@@ -3,7 +3,8 @@ import type { StorybookConfig } from "@storybook/react-vite";
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
-    "@storybook/addon-interactions",
+    "storybook-dark-mode",
+    "@storybook/theming",
     "@storybook/addon-links",
     "@storybook/addon-onboarding",
     "@storybook/addon-essentials",
@@ -29,4 +30,4 @@ const config: StorybookConfig = {
     return config;
   },
 };
-export default config;
+export { config as default };
