@@ -21,7 +21,10 @@ const preview: Preview = {
       theme: themes.light, // Customize themes here if needed
     },
   },
-  decorators: [DarkModeDecorator], // Add the dark mode decorator here
+
+  // Add the dark mode decorator here
+  decorators: [DarkModeDecorator],
+  tags: ["autodocs"],
 };
 
 export default preview;

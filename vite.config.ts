@@ -15,6 +15,9 @@ export default defineConfig({
   css: {
     postcss: "./postcss.config.js", // This ensures PostCSS config is used
   },
+  optimizeDeps: {
+    exclude: ["@storybook/react", "@storybook/addon-docs", "@mdx-js/react"],
+  },
   plugins: [react()],
   resolve: {
     alias: {
