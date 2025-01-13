@@ -18,7 +18,7 @@ export const DarkModeDecorator = (
 
     // Function to toggle the 'dark' class
     const applyDarkMode = (isDark: boolean) => {
-      document.body.classList.toggle("dark", isDark);
+      document.documentElement.classList.toggle("dark", isDark);
     };
 
     // Initial application of dark mode

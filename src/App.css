@@ -2,94 +2,155 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: 0 0% 95%; /* Light gray background */
-  --foreground: 220 15% 20%; /* Dark gray text */
-  --primary: 204 89% 57%; /* Light blue (#1ea7fd) */
-  --primary-foreground: 0 0% 100%; /* White for text on primary */
-  --primary-hover: 204 89% 47%; /* Slightly darker blue for hover */
-  --card: 0 0% 100%; /* White card background */
-  --card-foreground: 220 15% 20%; /* Card text color */
-  --border: 220 15% 85%; /* Light gray border */
-  --shadow: 220 15% 20%; /* Neutral shadow */
-  --radius: 20px; /* Default radius for 'rounded-lg' */
-}
+@layer base {
+  /* Global Variables */
+  :root {
+    /* Background and Foreground */
+    --background: 0 0% 100%; /* Very light neutral tone for a clean, minimal background */
+    --foreground: 240 5% 20%; /* Dark muted tone for primary text for good contrast on light background */
 
-:root.dark {
-  --background: 220 10% 10%; /* Dark gray background */
-  --foreground: 0 0% 95%; /* Light gray text */
-  --primary: 204 89% 57%; /* Same light blue for consistency */
-  --primary-foreground: 0 0% 100%; /* White for text on primary */
-  --primary-hover: 204 89% 67%; /* Slightly lighter blue for hover */
-  --card: 220 10% 20%; /* Dark gray card */
-  --card-foreground: 0 0% 95%; /* Light gray card text */
-  --border: 220 10% 40%; /* Darker border */
-  --shadow: 0 0% 0%; /* Neutral dark shadow */
-}
+    /* Cards and Popovers */
+    --card: 0 0% 100%; /* Pure white for cards to maintain clarity and separation */
+    --card-foreground: var(
+      --foreground
+    ); /* Matches text to ensure readability */
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+    /* Primary and Secondary Colors */
+    --primary: 204 89% 57%; /* Bright cyan-blue for primary actions and emphasis */
+    --primary-foreground: 0 0% 100%; /* White text for contrast on primary color */
+    --secondary: 210 60% 60%; /* Softer blue for secondary actions, less intense than primary */
+    --secondary-foreground: 0 0% 98%; /* Very light text for good contrast on secondary color */
 
-/* Light mode styles (default) */
-body {
-  --color-text: #1a202c; /* Tailwind's gray-800 */
-  --color-bg: #ffffff; /* White background */
-  --color-border: #e2e8f0; /* Tailwind's gray-300 */
-  --color-shadow: rgba(0, 0, 0, 0.1); /* Light shadow */
+    /* Muted/Neutral Colors */
+    --muted: 210 15% 92%; /* Soft light blue-gray for subtle background or borders */
+    --muted-foreground: 210 10% 40%; /* Neutral gray for text over muted backgrounds */
 
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  border-color: var(--color-border);
-}
+    /* Accent and Feedback Colors */
+    --accent: 204 90% 50%; /* Vibrant blue for highlights or secondary interactions */
+    --accent-foreground: var(
+      --primary-foreground
+    ); /* White text ensures visibility */
+    --destructive: 0 70% 50%; /* Bright red for errors, warnings, or destructive actions */
+    --destructive-foreground: 0 0% 98%; /* Very light text for readability on red background */
 
-/* Dark mode styles (when 'dark' class is on the body tag) */
-body.dark {
-  --color-text: #e2e8f0; /* Tailwind's gray-300 */
-  --color-bg: #1a202c; /* Tailwind's gray-800 */
-  --color-border: #2d3748; /* Tailwind's gray-700 */
-  --color-shadow: rgba(0, 0, 0, 0.5); /* Darker shadow */
+    /* Borders, Inputs, and Rings */
+    --border: 220 14% 90%; /* Light neutral for subtle, unobtrusive borders */
+    --input: var(--card); /* Input background matches card background */
+    --ring: 204 70% 50%; /* Cyan for focus rings to align with brand colors */
 
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  border-color: var(--color-border);
-}
+    /* Radius */
+    --radius: 20px; /* Soft, rounded corners for a modern, friendly design */
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+    /* Chart Colors */
+    --chart-1: 204 90% 60%; /* Vibrant blue */
+    --chart-2: 50 90% 60%; /* Bright green for positive or growth trends */
+    --chart-3: 340 90% 60%; /* Vibrant pink for attention-grabbing elements */
+    --chart-4: 28 90% 60%; /* Bright orange for warnings or neutral highlights */
+    --chart-5: 280 90% 60%; /* Vibrant purple for diversity in data representation */
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+    /* Sidebar Variables */
+    --sidebar-background: 0 0% 97%;
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--foreground);
+    --sidebar-primary-foreground: var(--background);
+    --sidebar-accent: var(--accent);
+    --sidebar-accent-foreground: var(--accent-foreground);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--ring);
   }
-  to {
-    transform: rotate(360deg);
+
+  :root.dark {
+    /* Dark Mode Variables */
+    --background: 220 10% 10%; /* Dark gray for background, easy on the eyes */
+    --foreground: 0 0% 95%; /* Off-white for text, ensuring readability on dark background */
+    --card: 220 10% 20%; /* Slightly lighter gray for cards */
+    --card-foreground: var(--foreground);
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
+
+    /* Muted/Neutral Colors */
+    --muted: 220 10% 15%; /* Dark muted gray for subtle background elements */
+    --muted-foreground: 220 5% 80%; /* Light gray text for readability on muted backgrounds */
+
+    /* Accent and Borders */
+    --accent: 204 70% 50%; /* Slightly muted cyan for consistency in dark mode */
+    --border: 220 10% 40%; /* Medium gray for unobtrusive borders */
+    --input: var(--card);
+
+    /* Sidebar Variables */
+    --sidebar-background: 220 10% 20%;
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--foreground);
+    --sidebar-accent: var(--accent);
+    --sidebar-border: var(--border);
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  /* Base Styles */
+  body {
+    @apply bg-background text-foreground;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  * {
+    @apply border-border;
+  }
 
-.read-the-docs {
-  color: #888;
+  /* Logo Styles */
+  .logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+
+  .logo:hover {
+    filter: drop-shadow(
+      0 0 2em var(--primary)
+    ); /* Glow effect using the primary color */
+  }
+
+  .logo.react:hover {
+    filter: drop-shadow(
+      0 0 2em #61dafb
+    ); /* Specific glow for React's brand color */
+  }
+
+  @keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+  }
+
+  /* Card Styles */
+  .card {
+    padding: 2em;
+  }
+
+  .read-the-docs {
+    color: var(
+      --muted-foreground
+    ); /* Muted color for less emphasis on supplementary text */
+  }
+
+  /* Hover/Focus States */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ring); /* Ring provides visual feedback for focus */
+  }
+
+  button:hover,
+  a:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
 }

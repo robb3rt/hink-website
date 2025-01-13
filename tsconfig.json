@@ -25,7 +25,7 @@
 
     /* Add typeRoots and types */
     "typeRoots": ["node_modules/@types", "node_modules/@storybook"],
-    "types": ["@storybook/addon-docs"]
+    "types": []
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
