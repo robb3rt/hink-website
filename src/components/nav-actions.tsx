@@ -35,6 +35,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
+interface NavActionsProps {
+  showNavMenu?: boolean; // New prop to control visibility
+}
+
 const data = [
   [
     {
@@ -98,12 +102,12 @@ const data = [
   ],
 ];
 
-export function NavActions() {
-  const [isOpen, setIsOpen] = React.useState(false);
+export function NavActions({ showNavMenu = false }: NavActionsProps) {
+  const [isOpen, setIsOpen] = React.useState(showNavMenu);
 
   React.useEffect(() => {
-    setIsOpen(true);
-  }, []);
+    setIsOpen(showNavMenu); // Update local state when prop changes
+  }, [showNavMenu]);
 
   return (
     <div className="flex items-center gap-2 text-sm">

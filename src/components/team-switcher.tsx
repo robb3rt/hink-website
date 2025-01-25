@@ -16,22 +16,34 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-export function TeamSwitcher({
-  teams,
-}: {
-  teams: {
-    name: string;
-    logo: React.ElementType;
-    plan: string;
-  }[];
-}) {
+interface Team {
+  name: string;
+  logo: React.ElementType;
+  plan: string;
+}
+
+interface TeamSwitcherProps {
+  teams: Team[];
+  isOpen?: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export function TeamSwitcher({ teams, isOpen, setIsOpen }: TeamSwitcherProps) {
   const [activeTeam, setActiveTeam] = React.useState(teams[0]);
+
+  const handleTeamChange = (team: Team) => {
+    setActiveTeam(team);
+  };
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+          <DropdownMenuTrigger asChild onClick={toggleDropdown}>
             <SidebarMenuButton className="w-fit px-1.5">
               <div className="flex aspect-square size-5 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
                 <activeTeam.logo className="size-3" />
@@ -52,7 +64,7 @@ export function TeamSwitcher({
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => handleTeamChange(team)}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-sm border">

@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   AudioWaveform,
   Blocks,
@@ -11,19 +11,19 @@ import {
   Settings2,
   Sparkles,
   Trash2,
-} from "lucide-react"
+} from "lucide-react";
 
-import { NavFavorites } from "@/components/nav-favorites"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavWorkspaces } from "@/components/nav-workspaces"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavFavorites } from "@/components/nav-favorites";
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavWorkspaces } from "@/components/nav-workspaces";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 // This is sample data.
 const data = {
@@ -254,13 +254,30 @@ const data = {
       ],
     },
   ],
+};
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  showTeamSwitcher?: boolean; // You can add other custom props here as needed
+  defaultTeamSwitcher?: boolean;
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  showTeamSwitcher = false,
+  defaultTeamSwitcher = false,
+  ...props
+}: AppSidebarProps) {
+  const [isOpen, setIsOpen] = React.useState(
+    showTeamSwitcher || defaultTeamSwitcher
+  );
+
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher
+          teams={data.teams}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>
@@ -270,5 +287,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
