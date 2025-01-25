@@ -1,3 +1,4 @@
+import remarkGfm from "remark-gfm";
 import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
@@ -10,7 +11,6 @@ const config: StorybookConfig = {
     "@storybook/addon-essentials",
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
-    "@storybook/addon-mdx-gfm",
   ],
   framework: {
     name: "@storybook/react-vite",
