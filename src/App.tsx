@@ -14,8 +14,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useTheme } from "@/hooks/use-theme";
 
 export default function Page() {
+  // Initialize theme hook
+  useTheme();
+
   return (
     <SidebarProvider>
       <AppSidebar />
