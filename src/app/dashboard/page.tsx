@@ -1,7 +1,8 @@
 import "@/App.css";
 import { LoremIpsum } from "react-lorem-ipsum";
 import { AppSidebar } from "@/components/app-sidebar";
-import { NavActions } from "@/components/nav-actions";
+import { NavActions } from "@/components/nav-actions/nav-actions";
+import { AuthButtons } from "@/components/auth/AuthButtons";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,7 +15,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuthContext } from "@/contexts/auth-context";
 
 interface PageProps {
   showSidebar?: boolean;
@@ -30,22 +32,28 @@ export default function Page({
   const [sidebarOpen, setSidebarOpen] = useState(showSidebar);
   const [NavMenuOpen, setNavMenuOpen] = useState(showNavMenu);
   const [TeamSwitcherOpen, setTeamSwitcherOpen] = useState(showTeamSwitcher);
+  const { session } = useAuthContext();
 
-  const handleTeamSwitcherToggle = (open: boolean) => {
-    setTeamSwitcherOpen(open);
-  };
-  const handleNavMenuToggle = (open: boolean) => {
-    setNavMenuOpen(open);
-  };
+  // Sync state with props when they change
+  useEffect(() => {
+    setSidebarOpen(showSidebar);
+  }, [showSidebar]);
 
-  // This function will be used to set the state from outside (onToggle of SidebarTrigger).
-  const handleSidebarToggle = (open: boolean) => {
-    setSidebarOpen(open);
-  };
+  useEffect(() => {
+    setNavMenuOpen(showNavMenu);
+  }, [showNavMenu]);
+
+  useEffect(() => {
+    setTeamSwitcherOpen(showTeamSwitcher);
+  }, [showTeamSwitcher]);
+
+  const handleSidebarToggle = (open: boolean) => setSidebarOpen(open);
+  const handleNavMenuToggle = (open: boolean) => setNavMenuOpen(open);
+  const handleTeamSwitcherToggle = (open: boolean) => setTeamSwitcherOpen(open);
 
   return (
     <SidebarProvider open={sidebarOpen} onOpenChange={handleSidebarToggle}>
-      <AppSidebar showTeamSwitcher={NavMenuOpen} />
+      <AppSidebar showTeamSwitcher={TeamSwitcherOpen} />
       <SidebarInset>
         <header className="flex h-14 shrink-0 items-center gap-2">
           <div className="flex flex-1 items-center gap-2 px-3">
@@ -62,7 +70,15 @@ export default function Page({
             </Breadcrumb>
           </div>
           <div className="ml-auto px-3">
-            <NavActions showNavMenu={showNavMenu} />
+            {session ? (
+              <NavActions showNavMenu={NavMenuOpen} />
+            ) : (
+              <AuthButtons 
+                onAuthStateChange={(_event, session) => {
+                  // Auth state is handled by the context
+                }} 
+              />
+            )}
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 px-4">

@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   ArrowDown,
@@ -18,13 +16,13 @@ import {
   Trash,
   Trash2,
 } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { withAuth } from '@/contexts/auth-context'
+import { Button } from "@/components/ui/button"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/components/ui/popover"
 import {
   Sidebar,
   SidebarContent,
@@ -33,10 +31,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar"
 
 interface NavActionsProps {
-  showNavMenu?: boolean; // New prop to control visibility
+  showNavMenu?: boolean;
 }
 
 const data = [
@@ -102,17 +100,22 @@ const data = [
   ],
 ];
 
-export function NavActions({ showNavMenu = false }: NavActionsProps) {
+function NavActionsComponent({ showNavMenu = false }: NavActionsProps) {
   const [isOpen, setIsOpen] = React.useState(showNavMenu);
 
   React.useEffect(() => {
-    setIsOpen(showNavMenu); // Update local state when prop changes
+    setIsOpen(showNavMenu);
   }, [showNavMenu]);
+
+  const lastEditDate = new Date().toLocaleDateString('en-US', {
+    month: 'short',
+    day: '2-digit'
+  })
 
   return (
     <div className="flex items-center gap-2 text-sm">
       <div className="hidden font-medium text-muted-foreground md:inline-block">
-        Edit Oct 08
+        Edit {lastEditDate}
       </div>
       <Button variant="ghost" size="icon" className="h-7 w-7">
         <Star />
@@ -155,3 +158,6 @@ export function NavActions({ showNavMenu = false }: NavActionsProps) {
     </div>
   );
 }
+
+// Export the protected version of NavActions
+export const NavActions = withAuth(NavActionsComponent, null) 

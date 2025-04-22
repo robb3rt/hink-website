@@ -1,51 +1,35 @@
 import "./App.css";
-import { LoremIpsum } from "react-lorem-ipsum";
-import { AppSidebar } from "@/components/app-sidebar";
-import { NavActions } from "@/components/nav-actions";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { useTheme } from "@/hooks/use-theme";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import { AuthProvider } from '@/contexts/auth-context'
 
-export default function Page() {
-  // Initialize theme hook
-  useTheme();
+// Lazy load pages
+const AuthCallback = lazy(() => import("@/components/auth/flows/AuthCallback"));
+const ResetPassword = lazy(() => import("@/components/auth/flows/ResetPassword"));
+const SignOut = lazy(() => import("@/components/auth/flows/SignOut"));
+const Dashboard = lazy(() => import("@/app/dashboard/page"));
 
+// Loading component for Suspense
+function LoadingFallback() {
+  return <div className="min-h-screen bg-white" />;
+}
+
+export default function App() {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center gap-2">
-          <div className="flex flex-1 items-center gap-2 px-3">
-            <SidebarTrigger />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="line-clamp-1">
-                    Project Management & Task Tracking
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-          <div className="ml-auto px-3">
-            <NavActions />
-          </div>
-        </header>
-        <div className="flex flex-1 flex-col gap-4 px-4">
-          <LoremIpsum p={10} />
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            {/* Auth routes */}
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/logout" element={<SignOut />} />
+            
+            {/* Main app route */}
+            <Route path="/*" element={<Dashboard />} />
+          </Routes>
+        </Suspense>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
