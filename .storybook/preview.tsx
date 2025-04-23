@@ -1,15 +1,11 @@
-import type { Preview } from "@storybook/react";
-import { DocsContainer } from "@storybook/addon-docs";
-import { themes } from "@storybook/theming";
-import { DarkModeDecorator } from "./DarkModeDecorator";
-import "../src/App.css"; // Ensure this contains Tailwind setup
+import '../src/index.css'
+import type { Preview } from '@storybook/react'
+import { DarkModeDecorator } from './DarkModeDecorator'
+import { withAuth } from './decorators/withAuth'
 
 const preview: Preview = {
   parameters: {
-    actions: {
-      handles: ["onClick", "onChange"], // Add more event handlers as needed
-    },
-    viewMode: "docs",
+    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -17,14 +13,15 @@ const preview: Preview = {
       },
     },
     docs: {
-      container: DocsContainer,
-      theme: themes.light, // Customize themes here if needed
+      toc: true,
     },
+    darkMode: {
+      current: 'light'
+    }
   },
+  
+  // Apply withAuth globally so any story can use isLoggedIn arg
+  decorators: [DarkModeDecorator,withAuth],
+}
 
-  // Add the dark mode decorator here
-  decorators: [DarkModeDecorator],
-  tags: ["autodocs"],
-};
-
-export default preview;
+export default preview

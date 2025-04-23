@@ -1,21 +1,29 @@
 import { createContext, useContext, ReactNode } from 'react'
 import { Session, User } from '@supabase/supabase-js'
-import { useAuth } from '@/hooks/use-auth'
+import { useAuth, supabase } from '@/hooks/use-auth'
 
 interface AuthContextType {
   session: Session | null
   user: User | null
   loading: boolean
   error: Error | null
+  signOut: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useAuth()
 
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      console.error('Error signing out:', error)
+    }
+  }
+
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={{ ...auth, signOut }}>
       {auth.loading ? null : children}
     </AuthContext.Provider>
   )

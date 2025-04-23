@@ -30,30 +30,15 @@ export default function Page({
   showTeamSwitcher = false,
 }: PageProps) {
   const [sidebarOpen, setSidebarOpen] = useState(showSidebar);
-  const [NavMenuOpen, setNavMenuOpen] = useState(showNavMenu);
-  const [TeamSwitcherOpen, setTeamSwitcherOpen] = useState(showTeamSwitcher);
   const { session } = useAuthContext();
 
-  // Sync state with props when they change
   useEffect(() => {
     setSidebarOpen(showSidebar);
   }, [showSidebar]);
 
-  useEffect(() => {
-    setNavMenuOpen(showNavMenu);
-  }, [showNavMenu]);
-
-  useEffect(() => {
-    setTeamSwitcherOpen(showTeamSwitcher);
-  }, [showTeamSwitcher]);
-
-  const handleSidebarToggle = (open: boolean) => setSidebarOpen(open);
-  const handleNavMenuToggle = (open: boolean) => setNavMenuOpen(open);
-  const handleTeamSwitcherToggle = (open: boolean) => setTeamSwitcherOpen(open);
-
   return (
-    <SidebarProvider open={sidebarOpen} onOpenChange={handleSidebarToggle}>
-      <AppSidebar showTeamSwitcher={TeamSwitcherOpen} />
+    <SidebarProvider open={sidebarOpen} onOpenChange={setSidebarOpen}>
+      <AppSidebar showTeamSwitcher={showTeamSwitcher} />
       <SidebarInset>
         <header className="flex h-14 shrink-0 items-center gap-2">
           <div className="flex flex-1 items-center gap-2 px-3">
@@ -69,12 +54,12 @@ export default function Page({
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <div className="ml-auto px-3">
+          <div className="ml-auto flex items-center gap-2 px-3">
             {session ? (
-              <NavActions showNavMenu={NavMenuOpen} />
+              <NavActions showNavMenu={showNavMenu} />
             ) : (
               <AuthButtons 
-                onAuthStateChange={(_event, session) => {
+                onAuthStateChange={(_event) => {
                   // Auth state is handled by the context
                 }} 
               />

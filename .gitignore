@@ -131,3 +131,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 *storybook.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local

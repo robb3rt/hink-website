@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { AuthProvider } from '@/contexts/auth-context'
+import { useTheme } from '@/hooks/use-theme'
 
 // Lazy load pages
 const AuthCallback = lazy(() => import("@/components/auth/flows/AuthCallback"));
@@ -11,10 +12,13 @@ const Dashboard = lazy(() => import("@/app/dashboard/page"));
 
 // Loading component for Suspense
 function LoadingFallback() {
-  return <div className="min-h-screen bg-white" />;
+  return <div className="min-h-screen bg-white dark:bg-background" />;
 }
 
 export default function App() {
+  // Initialize theme hook at the root level
+  useTheme();
+
   return (
     <BrowserRouter>
       <AuthProvider>

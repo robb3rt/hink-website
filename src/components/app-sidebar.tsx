@@ -23,241 +23,92 @@ import {
   SidebarContent,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
+// Sample data.
 const data = {
   teams: [
-    {
-      name: "Acme Inc",
-      logo: Command,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
+    { name: "Acme Inc", logo: Command, plan: "Enterprise" },
+    { name: "Acme Corp.", logo: AudioWaveform, plan: "Startup" },
+    { name: "Evil Corp.", logo: Command, plan: "Free" },
   ],
   navMain: [
-    {
-      title: "Search",
-      url: "#",
-      icon: Search,
-    },
-    {
-      title: "Ask AI",
-      url: "#",
-      icon: Sparkles,
-    },
-    {
-      title: "Home",
-      url: "#",
-      icon: Home,
-      isActive: true,
-    },
-    {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-      badge: "10",
-    },
+    { title: "Search", url: "#", icon: Search },
+    { title: "Ask AI", url: "#", icon: Sparkles },
+    { title: "Home", url: "#", icon: Home, isActive: true },
+    { title: "Inbox", url: "#", icon: Inbox, badge: "10" },
   ],
   navSecondary: [
-    {
-      title: "Calendar",
-      url: "#",
-      icon: Calendar,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-    },
-    {
-      title: "Templates",
-      url: "#",
-      icon: Blocks,
-    },
-    {
-      title: "Trash",
-      url: "#",
-      icon: Trash2,
-    },
-    {
-      title: "Help",
-      url: "#",
-      icon: MessageCircleQuestion,
-    },
+    { title: "Calendar", url: "#", icon: Calendar },
+    { title: "Settings", url: "#", icon: Settings2 },
+    { title: "Templates", url: "#", icon: Blocks },
+    { title: "Trash", url: "#", icon: Trash2 },
+    { title: "Help", url: "#", icon: MessageCircleQuestion },
   ],
   favorites: [
-    {
-      name: "Project Management & Task Tracking",
-      url: "#",
-      emoji: "📊",
-    },
-    {
-      name: "Family Recipe Collection & Meal Planning",
-      url: "#",
-      emoji: "🍳",
-    },
-    {
-      name: "Fitness Tracker & Workout Routines",
-      url: "#",
-      emoji: "💪",
-    },
-    {
-      name: "Book Notes & Reading List",
-      url: "#",
-      emoji: "📚",
-    },
-    {
-      name: "Sustainable Gardening Tips & Plant Care",
-      url: "#",
-      emoji: "🌱",
-    },
-    {
-      name: "Language Learning Progress & Resources",
-      url: "#",
-      emoji: "🗣️",
-    },
-    {
-      name: "Home Renovation Ideas & Budget Tracker",
-      url: "#",
-      emoji: "🏠",
-    },
-    {
-      name: "Personal Finance & Investment Portfolio",
-      url: "#",
-      emoji: "💰",
-    },
-    {
-      name: "Movie & TV Show Watchlist with Reviews",
-      url: "#",
-      emoji: "🎬",
-    },
-    {
-      name: "Daily Habit Tracker & Goal Setting",
-      url: "#",
-      emoji: "✅",
-    },
+    { name: "Project Management & Task Tracking", url: "#", emoji: "📊" },
+    { name: "Family Recipe Collection & Meal Planning", url: "#", emoji: "🍳" },
+    { name: "Fitness Tracker & Workout Routines", url: "#", emoji: "💪" },
+    { name: "Book Notes & Reading List", url: "#", emoji: "📚" },
+    { name: "Sustainable Gardening Tips & Plant Care", url: "#", emoji: "🌱" },
+    { name: "Language Learning Progress & Resources", url: "#", emoji: "🗣️" },
+    { name: "Home Renovation Ideas & Budget Tracker", url: "#", emoji: "🏠" },
+    { name: "Personal Finance & Investment Portfolio", url: "#", emoji: "💰" },
+    { name: "Movie & TV Show Watchlist with Reviews", url: "#", emoji: "🎬" },
+    { name: "Daily Habit Tracker & Goal Setting", url: "#", emoji: "✅" },
   ],
   workspaces: [
     {
       name: "Personal Life Management",
       emoji: "🏠",
       pages: [
-        {
-          name: "Daily Journal & Reflection",
-          url: "#",
-          emoji: "📔",
-        },
-        {
-          name: "Health & Wellness Tracker",
-          url: "#",
-          emoji: "🍏",
-        },
-        {
-          name: "Personal Growth & Learning Goals",
-          url: "#",
-          emoji: "🌟",
-        },
+        { name: "Daily Journal & Reflection", url: "#", emoji: "📔" },
+        { name: "Health & Wellness Tracker", url: "#", emoji: "🍏" },
+        { name: "Personal Growth & Learning Goals", url: "#", emoji: "🌟" },
       ],
     },
     {
       name: "Professional Development",
       emoji: "💼",
       pages: [
-        {
-          name: "Career Objectives & Milestones",
-          url: "#",
-          emoji: "🎯",
-        },
-        {
-          name: "Skill Acquisition & Training Log",
-          url: "#",
-          emoji: "🧠",
-        },
-        {
-          name: "Networking Contacts & Events",
-          url: "#",
-          emoji: "🤝",
-        },
+        { name: "Career Objectives & Milestones", url: "#", emoji: "🎯" },
+        { name: "Skill Acquisition & Training Log", url: "#", emoji: "🧠" },
+        { name: "Networking Contacts & Events", url: "#", emoji: "🤝" },
       ],
     },
     {
       name: "Creative Projects",
       emoji: "🎨",
       pages: [
-        {
-          name: "Writing Ideas & Story Outlines",
-          url: "#",
-          emoji: "✍️",
-        },
-        {
-          name: "Art & Design Portfolio",
-          url: "#",
-          emoji: "🖼️",
-        },
-        {
-          name: "Music Composition & Practice Log",
-          url: "#",
-          emoji: "🎵",
-        },
+        { name: "Writing Ideas & Story Outlines", url: "#", emoji: "✍️" },
+        { name: "Art & Design Portfolio", url: "#", emoji: "🖼️" },
+        { name: "Music Composition & Practice Log", url: "#", emoji: "🎵" },
       ],
     },
     {
       name: "Home Management",
       emoji: "🏡",
       pages: [
-        {
-          name: "Household Budget & Expense Tracking",
-          url: "#",
-          emoji: "💰",
-        },
-        {
-          name: "Home Maintenance Schedule & Tasks",
-          url: "#",
-          emoji: "🔧",
-        },
-        {
-          name: "Family Calendar & Event Planning",
-          url: "#",
-          emoji: "📅",
-        },
+        { name: "Household Budget & Expense Tracking", url: "#", emoji: "💰" },
+        { name: "Home Maintenance Schedule & Tasks", url: "#", emoji: "🔧" },
+        { name: "Family Calendar & Event Planning", url: "#", emoji: "📅" },
       ],
     },
     {
       name: "Travel & Adventure",
       emoji: "🧳",
       pages: [
-        {
-          name: "Trip Planning & Itineraries",
-          url: "#",
-          emoji: "🗺️",
-        },
-        {
-          name: "Travel Bucket List & Inspiration",
-          url: "#",
-          emoji: "🌎",
-        },
-        {
-          name: "Travel Journal & Photo Gallery",
-          url: "#",
-          emoji: "📸",
-        },
+        { name: "Trip Planning & Itineraries", url: "#", emoji: "🗺️" },
+        { name: "Travel Bucket List & Inspiration", url: "#", emoji: "🌎" },
+        { name: "Travel Journal & Photo Gallery", url: "#", emoji: "📸" },
       ],
     },
   ],
 };
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  showTeamSwitcher?: boolean; // You can add other custom props here as needed
+  showTeamSwitcher?: boolean;
   defaultTeamSwitcher?: boolean;
 }
 
@@ -266,18 +117,30 @@ export function AppSidebar({
   defaultTeamSwitcher = false,
   ...props
 }: AppSidebarProps) {
+  const { open: isSidebarOpen } = useSidebar();
   const [isOpen, setIsOpen] = React.useState(
     showTeamSwitcher || defaultTeamSwitcher
   );
 
+  // Sync team switcher state with props and sidebar state
+  React.useEffect(() => {
+    if (!isSidebarOpen) {
+      setIsOpen(false);
+    } else {
+      setIsOpen(showTeamSwitcher);
+    }
+  }, [showTeamSwitcher, isSidebarOpen]);
+
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader>
-        <TeamSwitcher
-          teams={data.teams}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        />
+        {isSidebarOpen && (
+          <TeamSwitcher
+            teams={data.teams}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
+        )}
         <NavMain items={data.navMain} />
       </SidebarHeader>
       <SidebarContent>

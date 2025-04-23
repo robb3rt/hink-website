@@ -1,5 +1,6 @@
 import remarkGfm from "remark-gfm";
 import type { StorybookConfig } from "@storybook/react-vite";
+import { loadEnv } from 'vite';
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -19,7 +20,14 @@ const config: StorybookConfig = {
   typescript: {
     reactDocgen: "react-docgen",
   },
-  viteFinal: (config) => {
+  viteFinal: (config, { configType }) => {
+    // Load env file based on mode
+    const env = loadEnv(
+      configType === 'PRODUCTION' ? 'production' : 'development',
+      process.cwd(),
+      ''
+    );
+
     // Ensure `config.resolve` exists
     if (!config.resolve) {
       config.resolve = { alias: {} };
@@ -31,7 +39,15 @@ const config: StorybookConfig = {
       "@": "/src", // Adjust this to your project structure
     };
 
-    return config;
+    // Add env variables
+    return {
+      ...config,
+      define: {
+        ...config.define,
+        'process.env.VITE_SUPABASE_URL': JSON.stringify(env.VITE_SUPABASE_URL),
+        'process.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(env.VITE_SUPABASE_ANON_KEY),
+      },
+    };
   },
 };
 export { config as default };
