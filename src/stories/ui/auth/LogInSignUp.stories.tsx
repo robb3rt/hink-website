@@ -1,27 +1,24 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { AuthButtons } from '@/components/auth/AuthButtons';
+import { AuthButtons, AuthButtonsProps } from '@/components/auth/AuthButtons';
 
-interface StoryProps {
-  isLoggedIn?: boolean;
-  className?: string;
-}
-
-const meta: Meta<StoryProps> = {
+export default {
   title: 'Auth/LogInSignUp',
   component: AuthButtons,
   parameters: { layout: 'centered' },
   argTypes: {
     isLoggedIn: { control: 'boolean', description: 'Whether the user is logged in' },
     className: { control: 'text', description: 'Additional classes' },
+    onAuthStateChange: { action: 'onAuthStateChange' }
   },
-};
-export default meta;
-type Story = StoryObj<StoryProps>;
+} as Meta<AuthButtonsProps & { isLoggedIn?: boolean }>;
+type Story = StoryObj<AuthButtonsProps & { isLoggedIn?: boolean }>;
 
 export const Default: Story = {
-  args: { isLoggedIn: false, className: '' },
+  args: { isLoggedIn: false, className: '', onAuthStateChange: () => {} },
+  render: ({ isLoggedIn, ...props }) => <AuthButtons {...props} />
 };
 
 export const LoggedIn: Story = {
-  args: { isLoggedIn: true, className: '' },
+  args: { isLoggedIn: true, className: '', onAuthStateChange: () => {} },
+  render: ({ isLoggedIn, ...props }) => <AuthButtons {...props} />
 }; 
