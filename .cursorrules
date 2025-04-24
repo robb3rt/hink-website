@@ -1,0 +1,7 @@
+# IMPORTANT:
+# Always read hink-website.md before writing any code.
+# After adding a major feature or completing a milestone,
+update hink-website.md.
+# Document the entire database schema in hink-website.md.
+# For new migrations, make sure to add them to the same
+file.

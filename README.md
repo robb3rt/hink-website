@@ -1,30 +1,122 @@
-# React + TypeScript + Vite
+# Hink Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern platform for connecting professionals, teams, and aspiring developers. Create and manage professional profiles, build team presence, and foster collaboration in the tech industry.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Personal CV/Portfolio
+- Multiple CV versions with customizable templates
+- Export options (PDF, Word)
+- Industry/role-specific templates
+- Project showcase
+- Skills matrix
+- Professional timeline
+- Education history
+- Granular page sharing controls
 
-## Expanding the ESLint configuration
+### Team Profiles
+- Organizational profiles
+- Team projects and achievements
+- Member management with role hierarchy
+- Position listings
+- Member CV showcase
+- Application system
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🛠️ Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+- **Frontend:** Next.js
+- **Backend:** Supabase
+- **Database:** PostgreSQL
+- **Authentication:** Supabase Auth (OAuth + Email)
+- **Storage:** Supabase Storage
+- **Styling:** TailwindCSS
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Supabase account
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone [repository-url]
+cd hink-website
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables
+```bash
+cp .env.example .env.local
+```
+Edit `.env.local` with your Supabase credentials and other required variables.
+
+4. Start the development server
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+The application will be available at `http://localhost:3000`
+
+## 📚 Documentation
+
+For detailed documentation about the project structure, database schema, and development guidelines, please refer to [hink-website.md](./hink-website.md).
+
+### Key Documentation Sections:
+- Project Phases
+- Database Schema
+- API Endpoints
+- Security Considerations
+- Future Development Plans
+
+## 🤝 Contributing
+
+1. Read the [hink-website.md](./hink-website.md) documentation
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+### Development Guidelines
+
+- Always read hink-website.md before writing any code
+- Document database schema changes in hink-website.md
+- Add new migrations to the documentation
+- Update documentation after completing major features
+
+## 🔐 Security
+
+- Implements role-based access control (RBAC)
+- Secure sharing links
+- Team membership verification
+- Safe file export handling
+
+## 📄 License
+
+[License Type] - See LICENSE file for details
+
+## 🏗️ Project Status
+
+Currently in initial planning phase. Documentation and requirements gathering in progress.
+
+## 🔜 Roadmap
+
+- Enhanced team collaboration features
+- Project management integration
+- Advanced CV template system
+- Multi-format export engine
+- Analytics for page views and sharing
+
+## 📞 Support
+
+[Contact information or support guidelines]
