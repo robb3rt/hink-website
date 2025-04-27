@@ -1,4 +1,5 @@
 import '../src/index.css'
+import '../src/App.css'
 import type { Preview } from '@storybook/react'
 import { DarkModeDecorator } from './DarkModeDecorator'
 import { withAuth } from './decorators/withAuth'

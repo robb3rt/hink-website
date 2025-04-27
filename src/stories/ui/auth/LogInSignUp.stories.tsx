@@ -13,10 +13,14 @@ export default {
 } as Meta<AuthButtonsProps & { isLoggedIn?: boolean }>;
 type Story = StoryObj<AuthButtonsProps & { isLoggedIn?: boolean }>;
 
-export const Default: Story = {
-  args: { isLoggedIn: false, className: '', onAuthStateChange: () => {} },
+export const Default = {
+  args: { 
+    isLoggedIn: false, 
+    className: '', 
+    onAuthStateChange: () => {} 
+  },
   render: ({ isLoggedIn, ...props }) => <AuthButtons {...props} />
-};
+} satisfies Story;
 
 export const LoggedIn: Story = {
   args: { isLoggedIn: true, className: '', onAuthStateChange: () => {} },

@@ -30,13 +30,11 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {
+export const Default = {
   args: {
-    variant: "default",
-    size: "default",
-    children: "Click Me",
+    children: 'Button',
   },
-};
+} satisfies Story;
 
 export const Destructive: Story = {
   args: {

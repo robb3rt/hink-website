@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-)
+import { supabase } from '@/lib/supabase'
 
 /**
  * ResetPassword component provides the interface and functionality for users
@@ -15,7 +10,7 @@ const supabase = createClient(
  * recovery token, handles form submission, and manages the password update
  * process through Supabase.
  */
-export default function ResetPassword() {
+export function ResetPassword() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
@@ -191,4 +186,7 @@ export default function ResetPassword() {
       </div>
     </div>
   )
-} 
+}
+
+// Default export for lazy loading
+export default ResetPassword; 

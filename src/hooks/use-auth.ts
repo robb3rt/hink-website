@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react'
-import { createClient, User, Session } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-)
+import { User, Session } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 
 export interface AuthState {
   user: User | null
@@ -55,11 +51,22 @@ export function useAuth() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (mounted) {
-        setAuthState({
-          user: session?.user ?? null,
-          session,
-          loading: false,
-          error: null
+        // Only update if the session has actually changed
+        setAuthState(currentState => {
+          const newUser = session?.user ?? null
+          // Check if the session is actually different
+          if (
+            currentState.session?.access_token === session?.access_token &&
+            currentState.user?.id === newUser?.id
+          ) {
+            return currentState
+          }
+          return {
+            user: newUser,
+            session,
+            loading: false,
+            error: null
+          }
         })
       }
     })

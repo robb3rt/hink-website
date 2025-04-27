@@ -1,17 +1,12 @@
 import { useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-)
+import { supabase } from '@/lib/supabase'
 
 /**
  * AuthCallback component handles the authentication callback flow from Supabase.
  * It processes authentication tokens from the URL and manages redirects based on
  * the authentication type (recovery or standard auth).
  */
-export default function AuthCallback() {
+export function AuthCallback() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
@@ -92,4 +87,7 @@ export default function AuthCallback() {
       </div>
     </div>
   )
-} 
+}
+
+// Default export for lazy loading
+export default AuthCallback; 

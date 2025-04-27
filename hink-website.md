@@ -164,8 +164,31 @@ create table public.user_settings (
   two_factor_enabled boolean default false,
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
-  system_theme_preference boolean default true
+  system_theme_preference boolean default true,
+  constraint user_settings_user_id_unique unique (user_id)
 );
+
+-- Row Level Security Policies
+alter table public.user_settings enable row level security;
+
+-- Policy to allow users to read their own settings
+create policy "Users can read own settings"
+  on public.user_settings
+  for select
+  using (auth.uid() = user_id);
+
+-- Policy to allow users to insert their own settings
+create policy "Users can insert own settings"
+  on public.user_settings
+  for insert
+  with check (auth.uid() = user_id);
+
+-- Policy to allow users to update their own settings
+create policy "Users can update own settings"
+  on public.user_settings
+  for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
 ```
 
 ### Tasks Table
@@ -193,15 +216,22 @@ The following migrations have been applied to set up the initial schema:
    - Created page_comments table
    - Created user_settings table
    - Created tasks table
+2. Add unique constraint to user_settings.user_id (20240607)
+   - Added unique constraint user_settings_user_id_unique on user_settings(user_id)
 
 ## Tech Stack
 - Frontend: Next.js (based on project structure)
-- Backend: Supabase
-- Database: PostgreSQL (via Supabase)
-- Authentication: 
-  - OAuth providers
-  - Email-based authentication
-- File Storage: Supabase Storage
+  - UI Components: Radix UI
+- Backend: Supabase with PostgreSQL
+
+### Supabase Client Implementation
+The project uses a singleton pattern for the Supabase client to ensure consistent configuration and prevent multiple client instances. The shared client is implemented in `src/lib/supabase.tsx` and should be imported as:
+
+```typescript
+import { supabase } from '@/lib/supabase'
+```
+
+All components should use this shared instance rather than creating their own Supabase clients.
 
 ## API Endpoints (To be implemented)
 - User management endpoints

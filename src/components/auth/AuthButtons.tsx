@@ -1,21 +1,15 @@
 import { Button } from '@/components/ui/button'
-import { createClient } from '@supabase/supabase-js'
 import { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { X } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 // Get the current base URL based on environment
 const getSiteUrl = () => {
   return import.meta.env.VITE_SITE_URL || window.location.origin
 }
-
-// Initialize Supabase client
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL!,
-  import.meta.env.VITE_SUPABASE_ANON_KEY!
-)
 
 export interface AuthButtonsProps {
   onAuthStateChange?: (event: 'SIGNED_IN' | 'SIGNED_OUT', session: any) => void
@@ -81,19 +75,6 @@ export function AuthButtons({ onAuthStateChange, className }: AuthButtonsProps) 
     }
   }
 
-  const handleSignOut = async () => {
-    try {
-      setIsLoading(true)
-      const { error } = await supabase.auth.signOut()
-      if (error) throw error
-      onAuthStateChange?.('SIGNED_OUT', null)
-    } catch (error: any) {
-      setError(error.message || 'An error occurred')
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   const resetForm = () => {
     setEmail('')
     setPassword('')
@@ -110,12 +91,6 @@ export function AuthButtons({ onAuthStateChange, className }: AuthButtonsProps) 
     setShowLoginModal(true)
   }
 
-  const switchToSignUp = () => {
-    resetForm()
-    setShowLoginModal(false)
-    setShowSignUpModal(true)
-  }
-
   return (
     <div className={`flex gap-2 ${className}`}>
       <Dialog.Root open={showLoginModal} onOpenChange={setShowLoginModal}>
@@ -125,8 +100,8 @@ export function AuthButtons({ onAuthStateChange, className }: AuthButtonsProps) 
           </Button>
         </Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-          <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-[100] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
             {showConfirmation ? (
               <>
                 <Dialog.Title className="text-lg font-semibold">
@@ -268,9 +243,14 @@ export function AuthButtons({ onAuthStateChange, className }: AuthButtonsProps) 
                 </form>
               </>
             )}
-            <Dialog.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
+            <Dialog.Close asChild>
+              <Button
+                variant="ghost"
+                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </Button>
             </Dialog.Close>
           </Dialog.Content>
         </Dialog.Portal>
@@ -278,16 +258,13 @@ export function AuthButtons({ onAuthStateChange, className }: AuthButtonsProps) 
 
       <Dialog.Root open={showSignUpModal} onOpenChange={setShowSignUpModal}>
         <Dialog.Trigger asChild>
-          <Button disabled={isLoading} onClick={() => {
-            resetForm()
-            setShowSignUpModal(true)
-          }}>
+          <Button variant="default" disabled={isLoading}>
             {isLoading ? 'Loading...' : 'Sign Up'}
           </Button>
         </Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-          <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
+          <Dialog.Overlay className="fixed inset-0 bg-black/50 z-[100] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-[100] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
             {showConfirmation ? (
               <>
                 <Dialog.Title className="text-lg font-semibold">

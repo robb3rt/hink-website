@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { supabase } from '@/hooks/use-auth'
+import { supabase } from '@/lib/supabase'
 
 /**
  * SignOut component handles the logout flow.
  * It automatically signs out the user and redirects to the home page.
  */
-export default function SignOut() {
+export function SignOut() {
   useEffect(() => {
     const handleSignOut = async () => {
       try {
@@ -30,4 +30,7 @@ export default function SignOut() {
       </div>
     </div>
   )
-} 
+}
+
+// Default export for lazy loading
+export default SignOut; 
