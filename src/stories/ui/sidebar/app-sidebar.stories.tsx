@@ -1,30 +1,9 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { DashboardLayout } from "@/app/dashboard/layout";
-import { DashboardPage } from "@/app/dashboard/page";
-import { BrowserRouter } from "react-router-dom";
+import type { Meta, StoryObj } from "@storybook/react";
+import { DashboardStoryComponent, type StoryProps } from "./app-sidebar.component";
 
-interface StoryProps {
-  showSidebar?: boolean;
-  showNavMenu?: boolean;
-  showTeamSwitcher?: boolean;
-  isLoggedIn?: boolean;
-  showUserMenu?: boolean;
-}
-
-export function DashboardStory(props: StoryProps) {
-  const { isLoggedIn, ...layoutProps } = props;
-  return (
-    <BrowserRouter>
-      <DashboardLayout {...layoutProps}>
-        <DashboardPage />
-      </DashboardLayout>
-    </BrowserRouter>
-  );
-}
-
-const meta: Meta<StoryProps> = {
+const meta = {
   title: "App/Sidebar",
-  component: DashboardStory,
+  component: DashboardStoryComponent,
   parameters: {
     layout: "fullscreen",
   },
@@ -35,67 +14,58 @@ const meta: Meta<StoryProps> = {
     isLoggedIn: { control: "boolean", description: "Whether the user is logged in" },
     showUserMenu: { control: "boolean", description: "Whether to show the user menu" },
   },
-};
+} satisfies Meta<typeof DashboardStoryComponent>;
 
 export default meta;
-type Story = StoryObj<StoryProps>;
+type Story = StoryObj<typeof DashboardStoryComponent>;
 
-export const Default: Story = {
-  args: { 
-    showSidebar: false, 
-    showNavMenu: false, 
-    showTeamSwitcher: false,
-    isLoggedIn: false,
-    showUserMenu: false
-  },
+// Base args that all stories extend from
+const baseArgs: StoryProps = {
+  showSidebar: false,
+  showNavMenu: false,
+  showTeamSwitcher: false,
+  isLoggedIn: false,
+  showUserMenu: false,
+};
+
+// Base logged-in args
+const loggedInArgs: StoryProps = {
+  ...baseArgs,
+  isLoggedIn: true,
+};
+
+export const Primary: Story = {
+  args: baseArgs,
 };
 
 export const LoggedIn: Story = {
-  args: { 
-    showSidebar: false, 
-    showNavMenu: false, 
-    showTeamSwitcher: false,
-    isLoggedIn: true,
-    showUserMenu: false
-  },
+  args: loggedInArgs,
 };
 
-export const LoggedInWithSidebar: Story = {
-  args: { 
-    showSidebar: true, 
-    showNavMenu: false, 
-    showTeamSwitcher: false,
-    isLoggedIn: true,
-    showUserMenu: false
-  },
-};
-
-export const LoggedInWithNavMenu: Story = {
-  args: { 
-    showSidebar: true, 
-    showNavMenu: true, 
-    showTeamSwitcher: false,
-    isLoggedIn: true,
-    showUserMenu: false
-  },
-};
-
-export const LoggedInWithTeam: Story = {
-  args: { 
-    showSidebar: true, 
-    showNavMenu: true, 
-    showTeamSwitcher: true,
-    isLoggedIn: true,
-    showUserMenu: false
-  },
-};
-
-export const LoggedInWithUserMenu: Story = {
+export const WithSidebar: Story = {
   args: {
+    ...loggedInArgs,
     showSidebar: true,
-    showNavMenu: false,
-    showTeamSwitcher: false,
-    isLoggedIn: true,
-    showUserMenu: true
+  },
+};
+
+export const WithNavMenu: Story = {
+  args: {
+    ...WithSidebar.args,
+    showNavMenu: true,
+  },
+};
+
+export const WithTeamSwitcher: Story = {
+  args: {
+    ...WithNavMenu.args,
+    showTeamSwitcher: true,
+  },
+};
+
+export const WithUserMenu: Story = {
+  args: {
+    ...WithSidebar.args,
+    showUserMenu: true,
   },
 };
